@@ -6,7 +6,7 @@ const skillSchema = new mongoose.Schema({
     level: {type: String, enum: ["Debutant", "Intermédiaire", "Expert"], require: true},
     image: {type: String, required: true}
 },
-{tumestamps: true}
+{timestamps: true}
 );
 
 module.exports = mongoose.model("Skill", skillSchema);

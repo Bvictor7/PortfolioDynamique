@@ -1,19 +1,20 @@
 const express = require("express");
 const router = express.Router();
-const Skills = require("../models/Skills");
-const upload = require("../config/upload");
-const auth = require("../middleware/auth");
+const auth = require("../middlewares/auth")
 
-router.post("/", auth, upload.single("image"), async (req, res) =>{
-    try{
-        const newSkill = new Skills({
-            title: req.body.title,
-            category: req.body.category,
-            level: req.body.level,
-            image: req.file.path
-        });
+// controllers
+const {
+    createSkill,
+    getAllSkills,
+    getSkillById,
+    updateSkill,
+    removeSkill
+  } = require("../controllers/skillController");
 
-        const savedSkill = await newSkill.save();
-        res.status(201)
-    }
-})
+  router.post("/", auth, createSkill);
+  router.get("/", getAllSkills);
+  router.get("/:id", getSkillById);
+  router.put("/:id", auth, updateSkill);
+  router.delete("/:id", auth, removeSkill);
+
+module.exports = router;
