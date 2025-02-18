@@ -9,29 +9,34 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     role: {type: String, enum:['admin','user'], default:'user'},
 
-  skills: [
-    {
-      titre: { type: String, required: true },
-      categorie: { type: String, required: true },
-      niveau: { type: String, enum: ['débutant', 'intermédiaire', 'expert'], required: true },
-      image: { type: String, required: false },
-    }
-  ],
+    skills: [
+      {
+        titre: { type: String, required: true },
+        categorie: { type: String, required: true },
+        niveau: { type: String, enum: ['débutant', 'intermédiaire', 'expert'], required: true },
+        image: { type: String, required: false },
+      }
+    ],
 
-  settings: {
-    preferences: {
-      theme: { type: String, default: 'light' }, // Exemple de préférence (thème)
+    settings: {
+      preferences: {
+        theme: { type: String, default: 'light' }, // Exemple de préférence (thème)
+      },
+      cookiesAccepted: { 
+        type: Boolean, 
+        default: false // Indique si l'utilisateur a accepté les cookies
+      }
     },
-    cookiesAccepted: { 
-      type: Boolean, 
-      default: false // Indique si l'utilisateur a accepté les cookies
+
+    isDeleted: {
+      type: Boolean,
+      default: false // Ajout d'un champ pour marquer un utilisateur comme supprimé
     }
-  }
-},
-{timestamps: true});
+  },
+  {timestamps: true}
+);
 
-
-// Middleware
+// Middleware pour hasher le mot de passe avant l'enregistrement
 userSchema.pre("save", async function (next) {
   if (!this.isModified(`password`)) {
     return next();

@@ -1,21 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const auth = require("../middlewares/auth");
+const isAdmin = require("../middlewares/isAdmin");
+const { validateRequest } = require("../middlewares/validateRequest");
 
-
-// controllers
 const {
   createUser,
   removeUser,
   getAllUsers,
   login,
-  logout
+  logout,
+  updateUser,
 } = require("../controllers/userController");
-
-
-const protect = require("../middlewares/auth");
-const isAdmin = require("../middlewares/isAdmin");
-const{ validateRequest } = require("../middlewares/validateRequest");
 
 const {
   validateRegisterUser,
@@ -23,9 +19,14 @@ const {
   validateDeleteUser,
 } = require("../validations/authValidations");
 
-router.post("/register", validateRegisterUser, validateRequest, createUser);  
-router.put("/:id", auth, validateUpdateUser, validateRequest, removeUser);  
-router.delete("/:id", auth, validateDeleteUser, validateRequest, removeUser);  
-router.post("/login", login);  
-router.post("/logout", auth, logout);  
+router.post("/login", login);
+router.post("/register", validateRegisterUser, validateRequest, createUser);
+router.post("/logout", auth, logout);
+router.get("/", auth, isAdmin, getAllUsers);
+router.put("/:id", auth, validateUpdateUser, validateRequest, updateUser);
+router.delete("/:id", auth, validateDeleteUser, validateRequest, removeUser);
+
+router.use(auth);
+router.use(isAdmin);
+
 module.exports = router;

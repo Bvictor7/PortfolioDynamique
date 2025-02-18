@@ -6,6 +6,7 @@ const cors = require("cors");
 const skillRoutes = require("./src/routes/skillRoutes");
 const cookieParser = require("cookie-parser");
 const errorHandler = require("./src/middlewares/errorHandler");
+const imageRoutes = require("./src/routes/imageRoutes");
 
 connectDB();
 
@@ -16,6 +17,7 @@ const corsParams = {
   methods: ["GET", "POST", "DELETE", "PUT"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
+
 
 app.use(cors(corsParams));
 
@@ -28,6 +30,8 @@ app.use(cookieParser());
 app.use("/api/skills", skillRoutes);
 
 app.use("/api/users", userRoutes);
+
+app.use("/upload", imageRoutes)
 
 app.use(errorHandler);
 

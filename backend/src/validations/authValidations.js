@@ -8,7 +8,7 @@ exports.validateRegisterUser = [
     .trim()
     .notEmpty()
     .withMessage("Le nom est obligatoire")
-    .isLength({ min: 3 })
+    .isLength({ min: 2 })
     .withMessage("Le nom doit avoir au moins 3 caractères")
     .isLength({ max: 7 })
     .withMessage("wesh le nom doit pas avoir plus que 7 caractères frerot"),

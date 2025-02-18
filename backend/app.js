@@ -1,7 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const userRoutes = require("./routes/userRoutes"); 
+const userRoutes = require("./src/routes/userRoutes"); 
+const imageRoutes = require("./src/routes/imageRoutes")
 const auth = require("./middleware/auth"); 
 dotenv.config(); // Charger les variables d'environnement
 
@@ -17,6 +18,8 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
   .catch(err => console.log("Erreur de connexion à MongoDB :", err));
 
 app.use("/api/users", userRoutes);
+
+app.use("/upload", imageRoutes);
 
 app.get("/", (req, res) => {
   res.send("Bienvenue sur l'API !");
